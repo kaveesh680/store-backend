@@ -24,11 +24,11 @@ export const ProductSchema = new Schema({
         type: SchemaTypes.String,
         required: true
     },
-    currentPrice: {
+    current_price: {
         type: SchemaTypes.Number,
         required: true
     },
-    oldPrice: {
+    old_price: {
         type: SchemaTypes.Number,
         required: false
     },
