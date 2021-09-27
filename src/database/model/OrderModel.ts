@@ -16,7 +16,7 @@ export interface IOrder {
   }[]
   date: string
   discount: number
-  sub_total: string
+  sub_total: number
   payment_method: string
   status: boolean
   instruction: string
