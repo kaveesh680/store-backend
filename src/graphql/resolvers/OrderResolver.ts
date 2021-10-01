@@ -32,7 +32,10 @@ export const OrderResolver: IResolvers = {
         },
         userCompletedOrders: async (_, args: {}, context: { user_id: string }) => {
             if (context.user_id) {
-                const completedOrdes = await OrderModel.find({user_id: context.user_id, status: true})
+                const completedOrders = await OrderModel.find({user_id: context.user_id, status: true})
+                return completedOrders
+            } else {
+                throw new ForbiddenError("No Access");
             }
         }
     },

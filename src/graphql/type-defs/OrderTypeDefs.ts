@@ -2,10 +2,10 @@ import {gql} from "apollo-server-express"
 
 export const OrderTypeDefs = gql`
     type Query{
-        allPendingOrders:[Order]
-        allCompletedOrders:[Order]
-        userPendingOrders:[Order]
-        userCompletedOrders:[Order]
+        allPendingOrders:[Order!]
+        allCompletedOrders:[Order!]
+        userPendingOrders:[Order!]
+        userCompletedOrders:[Order!]
     }
 
     type Mutation{
@@ -27,14 +27,14 @@ export const OrderTypeDefs = gql`
         shipping: Shipping
     }
     type OrderItem{
-        product:[Product]!
+        product:Product!
         quantity:Int!
     }
     type Product{
         _id:ID!
         name:String!
         image:String!
-        current_Price:Int!
+        current_price:Int!
         old_price:Int
         key:String!
     }
@@ -48,33 +48,32 @@ export const OrderTypeDefs = gql`
         contact_number: String!
     }
     type Shipping{
-        address: String!
-        full_name: String
+        billing_address: String!
+        name: String
         city: String!
         country: String!
         postal_code: Int!
         contact_number: String!
     }
     input CreateOrder{
-        date: String!
         discount: Int!
         sub_total: Int!
         payment_method: String!
         order_items: [CreateOrderItem!]!
-        instructions: String
+        instruction: String
         delivery: CreateDelivery!
         shipping: CreateShipping
     }
 
     input CreateOrderItem{
-        product:[CreateOrderProduct]!
+        product:CreateOrderProduct!
         quantity:Int!
     }
     input CreateOrderProduct{
         _id:ID!
         name:String!
         image:String!
-        current_Price:Int!
+        current_price:Int!
         old_price:Int
         key:String!
     }
@@ -88,8 +87,8 @@ export const OrderTypeDefs = gql`
         contact_number: String!
     }
     input CreateShipping{
-        address: String!
-        full_name: String
+        billing_address: String!
+        name: String
         city: String!
         country: String!
         postal_code: Int!

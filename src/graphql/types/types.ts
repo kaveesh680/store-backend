@@ -8,7 +8,6 @@ export interface IProduct {
 }
 
 export interface CreateOrderType {
-  date: string
   discount: number
   sub_total: number
   payment_method: string
@@ -39,7 +38,6 @@ export interface CreateOrderType {
     city: string
     country: string
     postal_code: number
-    instructions: string
     contact_number: string
   }
 }

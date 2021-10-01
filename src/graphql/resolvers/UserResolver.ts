@@ -11,8 +11,6 @@ export const UserResolver: IResolvers = {
         signIn: async (_, args: { email: string, password: string }, context: { user_id: string }) => {
             const user = await UserModel.findOne({email: args.email});
             const admin = await AdminModel.findOne({email: args.email});
-            // const salt = await genSalt(10);
-            // const hashedpassword = await hash(args.password, salt);
             if (user) {
                 const match = await compare(args.password, user.password);
                 if (match) {

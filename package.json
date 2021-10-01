@@ -15,6 +15,7 @@
     "-": "^0.0.1",
     "@types/bcrypt": "^5.0.0",
     "@types/jsonwebtoken": "^8.5.4",
+    "@types/multer": "^1.4.7",
     "apollo-server": "^3.3.0",
     "apollo-server-express": "^3.3.0",
     "aws-sdk": "^2.958.0",
@@ -26,6 +27,7 @@
     "jsonwebtoken": "^8.5.1",
     "lodash.merge": "^4.6.2",
     "mongoose": "^5.13.3",
+    "multer": "^1.4.3",
     "save-dev": "^0.0.1-security",
     "uuid": "^8.3.2"
   },

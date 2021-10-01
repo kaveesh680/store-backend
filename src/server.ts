@@ -6,6 +6,8 @@ import {rootTypeDefs} from './graphql/type-defs/RootTypeDefs';
 import {RootResolver} from './graphql/resolvers/RootResolver';
 import cors from "cors";
 import { getUser } from './jwt';
+import { FoodModel } from './database/model/FoodModel';
+import {v4 as uuidv4} from 'uuid'
 
 dotenv.config();
 const app: Application = express();
@@ -30,8 +32,6 @@ connectDatabase().then(() => {
             console.log(`Apollo Server on http://localhost:${process.env.PORT}/graphql`);
         });
     })
-
-
 }).catch(() => {
     console.log("Server error");
 });

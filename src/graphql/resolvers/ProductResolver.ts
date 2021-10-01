@@ -33,52 +33,56 @@ export const ProductResolver: IResolvers = {
         getMeatProducts: async () => {
             const meats = await MeatModel.find();
             return {
-                category: "Meat", product: meats
+                category: "Meat", products: meats
             };
         },
         getPharmacyproducts: async () => {
             const pharmacies = await PharmacyModel.find();
             return {
-                category: "Pharmacy", product: pharmacies
+                category: "Pharmacy", products: pharmacies
             };
         },
         getVegetableProducts: async () => {
             const vegetables = await VegetableModel.find();
             return {
-                category: "Vegetable", product: vegetables
+                category: "Vegetable", products: vegetables
             };
         }
     },
     Mutation: {
-        addProduct: async (_, args: {
-            name: string,
-            image: string,
-            current_price: number,
-            old_price: number | null,
-            key: string
-            category: string
-        }, context: { admin: true }) => {
-            let product;
-            const item: IProduct = {
-                _id: uuidv4(),
-                name: args.name,
-                image: args.image,
-                current_price: args.current_price,
-                old_price: args.old_price,
-                key: args.key
-            }
+        addProduct: async (_,
+                           args: {
+                               name: string,
+                               image: string,
+                               current_price: number,
+                               old_price: number | null,
+                               key: string,
+                               category: string
+                           },
+                           context: {
+                               admin: boolean
+                           }) => {
             if (context.admin) {
+                let product = null;
+                const item: IProduct = {
+                    _id: uuidv4(),
+                    name: args.name,
+                    key: args.key,
+                    image: args.image,
+                    old_price: (args.old_price) ? args.old_price : null,
+                    current_price: args.current_price
+                }
                 switch (args.category) {
                     case VEGETABLE: {
                         product = await VegetableModel.create(item);
                         break;
                     }
-                    case MEAT: {
-                        product = await MeatModel.create(item);
-                        break;
-                    }
                     case FRUIT: {
                         product = await FruitModel.create(item);
+                        break;
+                    }
+                    case MEAT: {
+                        product = await MeatModel.create(item);
                         break;
                     }
                     case PHARMACY: {
@@ -97,8 +101,9 @@ export const ProductResolver: IResolvers = {
                         break;
                     }
                 }
+                return product;
             } else {
-                throw new ForbiddenError("No access, Only Admin")
+                throw new ForbiddenError("No access, Admin only");
             }
         },
         updateProduct: async (_, args: {
@@ -109,82 +114,83 @@ export const ProductResolver: IResolvers = {
             old_price: number | null,
             key: string
             category: string
-        }, context: { admin: true }) => {
-            let product;
-            const item: IProduct = {
-                _id: uuidv4(),
-                name: args.name,
-                image: args.image,
-                current_price: args.current_price,
-                old_price: args.old_price,
-                key: args.key
-            }
+        }, context: { admin: boolean }) => {
             if (context.admin) {
+                let product = null;
+                const item: IProduct = {
+                    name: args.name,
+                    image: args.image,
+                    current_price: args.current_price,
+                    old_price: (args.old_price) ? args.old_price : undefined,
+                    key: args.key
+                }
                 switch (args.category) {
                     case VEGETABLE: {
                         product = await VegetableModel.findOneAndUpdate({_id: args._id}, item, {new: true});
                         break;
                     }
                     case MEAT: {
-                        product = await VegetableModel.findOneAndUpdate({_id: args._id}, item, {new: true});
+                        product = await MeatModel.findOneAndUpdate({_id: args._id}, item, {new: true});
                         break;
                     }
                     case FRUIT: {
-                        product = await VegetableModel.findOneAndUpdate({_id: args._id}, item, {new: true});
+                        product = await FruitModel.findOneAndUpdate({_id: args._id}, item, {new: true});
                         break;
                     }
                     case PHARMACY: {
-                        product = await VegetableModel.findOneAndUpdate({_id: args._id}, item, {new: true});
+                        product = await PharmacyModel.findOneAndUpdate({_id: args._id}, item, {new: true});
                         break;
                     }
                     case ELECTRONIC: {
-                        product = await VegetableModel.findOneAndUpdate({_id: args._id}, item, {new: true});
+                        product = await ElectronicModel.findOneAndUpdate({_id: args._id}, item, {new: true});
                         break;
                     }
                     case FOOD: {
-                        product = await VegetableModel.findOneAndUpdate({_id: args._id}, item, {new: true});
+                        product = await FoodModel.findOneAndUpdate({_id: args._id}, item, {new: true});
                         break;
                     }
                     default: {
                         break;
                     }
                 }
+                return product;
             } else {
                 throw new ForbiddenError("No access, only admin");
             }
         },
         deleteProduct: async (_, args: { _id: string, category: string }, context: { admin: true }) => {
-            let product;
             if (context.admin) {
+            let product;
                 switch (args.category) {
                     case VEGETABLE: {
                         product = await VegetableModel.findOneAndDelete({_id: args._id});
                         break;
                     }
                     case MEAT: {
-                        product = await VegetableModel.findOneAndUpdate({_id: args._id});
+                        product = await MeatModel.findOneAndDelete({_id: args._id});
                         break;
                     }
                     case FRUIT: {
-                        product = await VegetableModel.findOneAndUpdate({_id: args._id});
+                        product = await FruitModel.findOneAndDelete({_id: args._id});
                         break;
                     }
                     case PHARMACY: {
-                        product = await VegetableModel.findOneAndUpdate({_id: args._id});
+                        product = await PharmacyModel.findOneAndDelete({_id: args._id});
                         break;
                     }
                     case ELECTRONIC: {
-                        product = await VegetableModel.findOneAndUpdate({_id: args._id});
+                        product = await ElectronicModel.findOneAndDelete({_id: args._id});
                         break;
                     }
                     case FOOD: {
-                        product = await VegetableModel.findOneAndUpdate({_id: args._id});
+                        product = await FoodModel.findOneAndDelete({_id: args._id});
                         break;
                     }
                     default: {
                         break;
                     }
                 }
+                return product;
             } else {
                 throw new ForbiddenError("No accees, Only admin");
             }

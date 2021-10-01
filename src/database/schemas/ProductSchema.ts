@@ -3,8 +3,8 @@ import {Document, Schema, SchemaTypes} from 'mongoose'
 export interface IProduct {
     name: string
     image: string
-    currentPrice: number
-    oldPrice: number | null
+    current_price: number
+    old_price: number | null
     key: string
 }
 
